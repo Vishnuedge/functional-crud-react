@@ -1,18 +1,11 @@
 import React from 'react';
-
-
 import './style.css';
-
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
 import Home from './Home.js';
 import About from './About.js';
 import Posts from './Posts.js';
 
-
 export default function App() {
- 
- 
-
   return (
     <>
       <BrowserRouter>
