@@ -1,134 +1,71 @@
 import React from 'react';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+
+
 import './style.css';
-import Table from './Table.js';
-import Form from './Form.js';
 
-let urlPosts = 'https://jsonplaceholder.typicode.com/posts';
+import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
+import Home from './Home.js';
+import About from './About.js';
+import Posts from './Posts.js';
+
+
 export default function App() {
-  // STATE (STORE POSTS) :
-  let [posts, setPosts] = useState([]);
-  let [id, setId] = useState();
-  let [userId, setuserId] = useState();
-  let [title, setTitle] = useState();
-  let [body, setBody] = useState();
-  let [isClick, setisClick] = useState(false);
-  let [comments, setComments] = useState([]);
-
-  //USE EFFECT FOR CALLING THE API INITIALLY (COMPONENTDIDMOUNT):
-
-  useEffect(() => {
-    getPosts();
-  }, []);
-
-  //GET DATA FROM API USING AXIOS :
-
-  const getPosts = async () => {
-    const { data } = await axios.get(urlPosts);
-    setPosts(data);
-  };
-
-  //GET COMMENTS FROM AXIOS :
-  const getComments = async idofPost => {
-    const commentsUrl = `https://jsonplaceholder.typicode.com/posts/${idofPost}/comments`;
-    let response = await axios.get(commentsUrl);
-    setComments(response.data);
-
-    setisClick(!isClick);
-  };
-  //DELETE POST USING AXIOS API :
-
-  const deletePosts = async POSTID => {
-    await axios.delete(`${urlPosts}/${POSTID}`);
-    posts = posts.filter(post => post.id !== POSTID);
-    setPosts(posts);
-  };
-
-  //CREATE POSTS USING AXIOS API  :
-
-  const createPosts = async () => {
-    let { data } = await axios.post(urlPosts, {
-      userId,
-      title,
-      body
-    });
-    posts = [...posts];
-    posts.push(data);
-    setPosts(posts);
-    setuserId(''), setTitle(''), setBody('');
-  };
-
-  //SELECT POST :
-
-  const selectPosts = POSTs => {
-    setId(POSTs.id);
-    setuserId(POSTs.userId);
-    setTitle(POSTs.title);
-    setBody(POSTs.body);
-  };
-
-  //UPDATE POST :
-
-  const updatePosts = async () => {
-    let { data } = await axios.put(`${urlPosts}/${id}`, {
-      userId,
-      title,
-      body
-    });
-    posts = [...posts];
-    const postIndex = posts.findIndex(post => post.id === id);
-    posts[postIndex] = data;
-    setPosts(posts);
-    setuserId(''), setTitle(''), setBody(''), setId('');
-  };
-
-  // HANDLE CHANGE :
-  const handleChange = ({ target: { value, name } }) => {
-    console.log([name], value);
-    if (name === 'userId') {
-      setuserId(value);
-    } else if (name === 'title') {
-      setTitle(value);
-    } else {
-      setBody(value);
-    }
-  };
-  // HANDLE SUBMIT :
-  const handleSubmit = event => {
-    event.preventDefault();
-
-    if (id) {
-      updatePosts();
-    } else {
-      createPosts();
-    }
-  };
-
-  //TOGGLE :
-  const toggle = () => {
-    setisClick(!isClick);
-  };
+ 
+ 
 
   return (
-    <div>
-      <Form
-        handleSubmit={handleSubmit}
-        userId={userId}
-        title={title}
-        body={body}
-        handleChange={handleChange}
-      />
+    <>
+      <BrowserRouter>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container-fluid">
+            <Link to="/home" class="navbar-brand">
+              CRUD
+            </Link>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNavDropdown"
+              aria-controls="navbarNavDropdown"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon" />
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <Link to="/home" class="nav-link active" aria-current="page">
+                    Home
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link to="/posts" class="nav-link">
+                    Post
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link to="/about" class="nav-link">
+                    About
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <Switch>
+          <Route path="/home" component={Home} />
+          <Route path="/about" component={About} />
+          <Route exact path="/posts" component={Posts} />
 
-      <Table
-        posts={posts}
-        deletePosts={deletePosts}
-        selectPosts={selectPosts}
-        getComments={getComments}
-        isClick={isClick}
-        comments={comments}
-        toggle={toggle}
-      />
-    </div>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+          <Route path="*">
+            <Redirect to="/home" />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </>
   );
 }
