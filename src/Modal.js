@@ -3,7 +3,6 @@ import React from 'react';
 import './modal.css';
 
 export default function Modal({ data, toggle }) {
-  // console.log(data);
   return (
     <>
       <div className="container-fluid center bg-dark ">

@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from './Modal.js';
 import './style.css';
 import { useState } from 'react';
+import './table.css';
 
 export default function Table({
   posts,

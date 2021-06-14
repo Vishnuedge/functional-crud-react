@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import './style.css';
 import Table from './Table.js';
 import Form from './Form.js';
-import { CommentsContext } from './context.js';
+
 let urlPosts = 'https://jsonplaceholder.typicode.com/posts';
 export default function App() {
   // STATE (STORE POSTS) :
@@ -109,6 +109,7 @@ export default function App() {
   const toggle = () => {
     setisClick(!isClick);
   };
+
   return (
     <div>
       <Form
