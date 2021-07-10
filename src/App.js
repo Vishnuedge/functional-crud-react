@@ -1,9 +1,10 @@
 import React from 'react';
-import './style.css';
+import './App.css';
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
 import Home from './Home.js';
 import About from './About.js';
 import Posts from './Posts.js';
+import Profile from './Profile';
 
 export default function App() {
   return (
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/home" component={Home} />
           <Route path="/about" component={About} />
           <Route exact path="/posts" component={Posts} />
+          <Route exact path="/profile/:id" component={Profile} />
 
           <Route exact path="/">
             <Redirect to="/home" />

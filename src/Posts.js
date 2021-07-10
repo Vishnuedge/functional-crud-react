@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Table from './Table.js';
 import Form from './Form.js';
+import { useHistory } from 'react-router-dom';
 let urlPosts = 'https://jsonplaceholder.typicode.com/posts';
 export default function Posts() {
   // STATE (STORE POSTS) :
@@ -12,6 +13,7 @@ export default function Posts() {
   let [body, setBody] = useState();
   let [isClick, setisClick] = useState(false);
   let [comments, setComments] = useState([]);
+  let history = useHistory();
 
   //USE EFFECT FOR CALLING THE API INITIALLY (COMPONENTDIDMOUNT):
 
@@ -106,6 +108,13 @@ export default function Posts() {
   const toggle = () => {
     setisClick(!isClick);
   };
+
+  // HANDLE ROW CLICK :
+
+  const handleRowClick = postid => {
+    history.push(`/profile/${postid}`);
+  };
+
   return (
     <>
       <div>
@@ -125,6 +134,7 @@ export default function Posts() {
           isClick={isClick}
           comments={comments}
           toggle={toggle}
+          handleRowClick={handleRowClick}
         />
       </div>
     </>

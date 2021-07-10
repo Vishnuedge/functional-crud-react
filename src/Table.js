@@ -11,14 +11,15 @@ export default function Table({
   getComments,
   isClick,
   comments,
-  toggle
+  toggle,
+  handleRowClick
 }) {
   const [selectedComment, setselectedComment] = useState();
 
   return (
-    <div className="container">
-      <table class="table ">
-        <thead className="table-dark">
+    <div className="container ">
+      <table class="table table-dark ">
+        <thead>
           <tr>
             <th scope="col">ID</th>
             <th scope="col">POST ID</th>
@@ -31,12 +32,44 @@ export default function Table({
           {posts.map(post => {
             return (
               <>
-                <tr>
-                  <th scope="row">{post.id}</th>
-                  <td>{post.userId}</td>
-                  <td>{post.title}</td>
-                  <td>{post.body}</td>
+                <tr className="viewProfile">
+                  <th scope="row" className="viewProfile">
+                    {post.id}
+                  </th>
+                  <td className="viewProfile">{post.userId}</td>
+                  <td className="viewProfile">{post.title}</td>
+                  <td
+                    onClick={() => {
+                      handleRowClick(post.userId);
+                    }}
+                  >
+                    {post.body}
+                  </td>
 
+                  {/* UPDATE BUTTON : */}
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-light"
+                      onClick={() => {
+                        selectPosts(post);
+                      }}
+                    >
+                      EDIT
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-light"
+                      onClick={() => {
+                        getComments(post.id);
+                        setselectedComment(post.id);
+                      }}
+                    >
+                      COMMENTS
+                    </button>
+                  </td>
                   {/* DELETE BUTTON : */}
                   <td>
                     <button
@@ -49,39 +82,16 @@ export default function Table({
                       DELETE
                     </button>
                   </td>
-                  {/* UPDATE BUTTON : */}
-                  <td>
-                    <button
-                      type="button"
-                      class="btn btn-warning"
-                      onClick={() => {
-                        selectPosts(post);
-                      }}
-                    >
-                      EDIT
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      class="btn btn-success"
-                      onClick={() => {
-                        getComments(post.id);
-                        setselectedComment(post.id);
-                      }}
-                    >
-                      COMMENTS
-                    </button>
-                  </td>
                 </tr>
                 <br />
-                <tr>
-                  {isClick && selectedComment === post.id ? (
+
+                {isClick && selectedComment === post.id ? (
+                  <tr>
                     <Modal data={comments} toggle={toggle} />
-                  ) : (
-                    <div />
-                  )}
-                </tr>
+                  </tr>
+                ) : (
+                  <div />
+                )}
               </>
             );
           })}
