@@ -3,7 +3,7 @@ import Modal from './Modal.js';
 import './style.css';
 import { useState } from 'react';
 import './table.css';
-
+import DeleteIcon from '@material-ui/icons/Delete';
 export default function Table({
   posts,
   deletePosts,
@@ -32,8 +32,12 @@ export default function Table({
           {posts.map(post => {
             return (
               <>
-                <tr className="viewProfile">
-                  <th scope="row" className="viewProfile">
+                <tr>
+                  <th
+                    className="viewProfile"
+                    scope="row"
+                    className="viewProfile"
+                  >
                     {post.id}
                   </th>
                   <td className="viewProfile">{post.userId}</td>
@@ -80,6 +84,7 @@ export default function Table({
                       }}
                     >
                       DELETE
+                      <DeleteIcon />
                     </button>
                   </td>
                 </tr>
