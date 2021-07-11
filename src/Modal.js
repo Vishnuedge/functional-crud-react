@@ -12,7 +12,7 @@ export default function Modal({ data, toggle }) {
               <div className="row  ">
                 <div className="col">
                   <div class="card mb-2">
-                    <div class="card-body">
+                    <div class="card-body text-dark">
                       <h5 class="card-title">{comment.name}</h5>
                       <h6 className="badge bg-secondary">COMMENTS : </h6>
                       <p class="card-text">{comment.body}</p>
